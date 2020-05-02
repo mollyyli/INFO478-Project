@@ -22,7 +22,7 @@ What other research has been done in this area? Make sure to **include 3+ links*
 
   
 
-  What is the dataset you'll be working with? Please include background on who collected the data, where you accessed it, and any additional information we should know about how this data came to be. You must find at **least two data sources** at this stage. 
+What is the dataset you'll be working with? Please include background on who collected the data, where you accessed it, and any additional information we should know about how this data came to be. You must find at **least two data sources** at this stage. 
 
 - https://www.kaggle.com/osmi/mental-health-in-tech-survey (OSMI 2014)
 
@@ -32,9 +32,9 @@ What other research has been done in this area? Make sure to **include 3+ links*
 
   
 
-  Who is your **target audience**? 
+Who is your **target audience**? 
 
-  Depending on the domain of your data, there may be a variety of audiences interested in using the dataset. You should hone in on one of these audiences.People who are interested in working in tech industry People who are curious about how working in tech affects their mental health 
+Depending on the domain of your data, there may be a variety of audiences interested in using the dataset. You should hone in on one of these audiences.People who are interested in working in tech industry People who are curious about how working in tech affects their mental health 
 
 
 
@@ -52,25 +52,21 @@ What should your audience learn from your resource? Please **consider specific q
 
   
 
-  ##### **Technical Description**
+##### **Technical Description**
 
-  What will be the format of your final product (Shiny app, HTML page, compiled .Rmd file, etc)?
+What will be the format of your final product (Shiny app, HTML page, compiled .Rmd file, etc)?
 
-  .Rmd file 
+.Rmd file 
 
-  Do you anticipate any specific data collection / data management challenges?
+Do you anticipate any specific data collection / data management challenges?
 
-  We have two dataset that we want to work closely with but we are curious to know how mental health issues are being taken at big tech companies. Addtionally, there does not seem to be a ton of research in this area. The OSMI datasets were among the few quality datasets we found during our search.
+We have two dataset that we want to work closely with but we are curious to know how mental health issues are being taken at big tech companies. Addtionally, there does not seem to be a ton of research in this area. The OSMI datasets were among the few quality datasets we found during our search.
 
-  
+What new technical skills will need to learn in order to complete your project?
 
-  What new technical skills will need to learn in order to complete your project?
+- General formatting of Rmd doc
+- Advanced plotting in R
 
-  General formatting of Rmd doc
+What major challenges do you anticipate? 
 
-  Advanced plotting in R
-
-  What major challenges do you anticipate? 
-
-  Markdown format issues; We are not familiar with R as we took INFO201 a long time ago 
-  
+Markdown format issues; We are not familiar with R as we took INFO201 a long time ago 
