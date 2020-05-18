@@ -1,0 +1,23 @@
+---
+title: "Exploratory Analysis"
+author: "Daniel Lu"
+date: "5/18/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(plotly)
+```
+
+Across your datasets, I imagine you have a few variables that are your "outcome" of interest, so to speak. You should do enough statistical testing (e.g., means, standard deviations, ranges, etc.) to learn about your variables and discuss them in a nuanced way (again, making sure to frame your insights using the appropriate population health vocabulary). Then, you should create at least two graphics showing the distribution of the variable.  Following your graphics, you should write out pertinent information that you discover. 
+
+Outcome Variables
+- 
+
+```{r}
+OSMI2014 <- read.csv("../Data/survey.csv")
+target <- OSMI2014 %>% 
+  select(c(work_interfere))
+```
