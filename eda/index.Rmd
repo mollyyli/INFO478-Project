@@ -1,6 +1,6 @@
 ---
 title: "Exploratory Analysis"
-author: "Daniel Lu"
+author: "Daniel Lu, Victoria Jiang"
 date: "5/18/2020"
 output: html_document
 ---
@@ -59,5 +59,37 @@ ggplotly(interference)
 ```
 
 Looking at our frequency plot of work interference, we can see that, similar to what we discovered above, the "Sometimes" category is the most populated, with 465 individuals. What is most interesting to me, based on this plot, is that of workers in this survey, there are far more with some type of mental illness than without, with more than half the number of workers that said they do not have a mental illness, saying that their work is often affected by mental illness. This is etiher a reflection on poor sampling, or on the prevalence of mental illness in the tech community. 
+
+
+```{r}
+OSMI2014 <- read.csv("../Data/survey.csv", stringsAsFactors = FALSE)
+
+OSMI2014 %>%
+  mutate(Gender = replace(Gender, grepl(substr("Male", 0, 1), ignore.case = T, Gender), "Male")) %>%
+  mutate(Gender = replace(Gender, grepl(substr("Female", 0, 1), ignore.case = T, Gender), "Female")) %>%
+  mutate(Gender = replace(Gender, grepl("Woman", ignore.case = T, Gender), "Female")) %>%
+  mutate(Gender = replace(Gender, grepl("femail", ignore.case = T, Gender), "Female")) %>%
+  mutate(Gender = replace(Gender, grepl("p", ignore.case = F, Gender), "Gender Neutral")) %>%
+  mutate(Gender = replace(Gender, grepl("Enby", Gender), "Gender Neutral")) %>%
+  mutate(Gender = replace(Gender, grepl("non-binary", Gender), "Gender Neutral")) %>%
+  mutate(Gender = replace(Gender, grepl("Agender", Gender), "Gender Neutral")) %>%
+  mutate(Gender = replace(Gender, grepl("Neuter", Gender), "Gender Neutral")) %>%
+  mutate(Gender = replace(Gender, grepl("fluid", Gender), "Gender Neutral")) %>%
+  mutate(Gender = replace(Gender, grepl("Nah", Gender), "Others")) %>%
+  mutate(Gender = replace(Gender, grepl("Androgyne", Gender), "Others")) %>%
+  mutate(Gender = replace(Gender, grepl("queer", Gender), "Others")) %>%
+  mutate(Gender = replace(Gender, grepl("A little about you", Gender), "Others")) %>%
+  mutate(Gender = replace(Gender, grepl("All", Gender), "Others")) %>%
+  mutate(Gender = replace(Gender, grepl("Guy", Gender), "Others")) %>%
+  
+  ggplot(aes(x = treatment, fill = Gender)) +
+  geom_bar() +
+  facet_wrap(~Gender) +
+  labs(x = "Did the person choose to receive treatment? ",
+       title = "Comparisons Between Gender and Treatment for Mental Illness") +
+  theme_linedraw()
+```
+
+By looking at the comparison graph, we can see a huge difference between each category. The number of female, gender neutral, and others look significantly less comparing to male as male indeed is the dominant gender within tech field. However, there are actually more male have not yet receive treatments for their mental illness, whereas the other genders are more likely to receive treatments. This can be caused by male care more about the face and masculinity, so they prefer not to show their weakness by seeking for help. 
 
 
