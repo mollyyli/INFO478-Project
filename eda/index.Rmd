@@ -120,4 +120,47 @@ OSMI2014 %>%
   theme_linedraw()
 ```
 
-By looking at the comparison graph, we can see a huge difference between each category. The number of female, gender neutral, and others look significantly less comparing to male as male indeed is the dominant gender within tech field. However, there are actually more male have not yet receive treatments for their mental illness, whereas the other genders are more likely to receive treatments. This can be caused by male care more about the face and masculinity, so they prefer not to show their weakness by seeking for help. 
+By looking at the comparison graph, we can see a huge difference between each category. The number of female, gender neutral, and others look significantly less comparing to male as male indeed is the dominant gender within tech field. However, there are actually more male have not yet receive treatments for their mental illness, whereas the other genders are more likely to receive treatments. This can be caused by male care more about the face and masculinity, so they prefer not to show their weakness by seeking for help.
+
+
+
+```{r}
+OSMI2014 <- read.csv("../Data/survey.csv", stringsAsFactors = FALSE)
+target_benefit <- OSMI2014 %>% 
+  select(benefits)
+
+print(unique(target_company_size))
+
+benefit <- OSMI2014 %>% 
+  mutate(benefits = replace(benefits, grepl("Yes", benefits), 1)) %>% 
+  mutate(benefits = replace(benefits, grepl("No", benefits), 0)) %>% 
+  mutate(benefits = as.numeric(benefits)) %>% 
+  select(c(benefits))
+
+
+
+benefit <- benefit %>%
+  drop_na()
+
+print(paste("Average:", mean(benefit$benefit)))
+print(paste("Standard Deviation:", sd(benefit$benefit)))
+print(paste("Median:", median(benefit$benefit)))
+
+```
+
+We decided to use 'benefits' as an outcome variable because we want to disocver if the fact that having benefits will affect job performance/ mental health. After calculation, we learned that our average is 0.56 and our standard deviation is 0.496 with a median of 1. During our calculation, we also found a good amount of people don't know if they have benefits.That gives us a better idea that whether or not having benefits affects job performance and mental health. 
+
+```{r}
+benefit_graph <- ggplot(target_benefit, aes(x = factor(benefits, level = c('Yes', 'No', 'Do not know')))) +
+  geom_histogram(stat = "count", binwidth=1)
+  labs(
+    title = "Frequency of Benefits",
+    x = "Benefit",
+    y = "Count"
+  )
+ggplotly(benefit_graph)
+
+```
+
+Looking at the histogram above, we can know that more than half people have benefits and a good amount of people do not know if they have benefits at their company. An interesting questions that we could ask ourselves is why there are many people who don't know about their benefits. Or does this factor ('benefit') not play an important role while deciding if they should work at the company and how would this factor affect while making the dicision in accecpting the company offer. 
+
