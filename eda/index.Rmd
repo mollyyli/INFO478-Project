@@ -13,11 +13,51 @@ library(plotly)
 
 Across your datasets, I imagine you have a few variables that are your "outcome" of interest, so to speak. You should do enough statistical testing (e.g., means, standard deviations, ranges, etc.) to learn about your variables and discuss them in a nuanced way (again, making sure to frame your insights using the appropriate population health vocabulary). Then, you should create at least two graphics showing the distribution of the variable.  Following your graphics, you should write out pertinent information that you discover. 
 
-Outcome Variables
-- 
+## Outcome Variable Distributions:
+
+### Work Interfere:
+```{r}
+OSMI2014 <- read.csv("../Data/survey.csv", stringsAsFactors = FALSE)
+target <- OSMI2014 %>% 
+  mutate(work_interfere = replace_na(work_interfere, "No Mental Illness")) %>% 
+  select(c(work_interfere))
+
+print(unique(target))
+
+numericalTarget <- OSMI2014 %>% 
+  mutate(work_interfere = replace(work_interfere, grepl("Never", work_interfere), 0)) %>% 
+  mutate(work_interfere = replace(work_interfere, grepl("Rarely", work_interfere), 1)) %>% 
+  mutate(work_interfere = replace(work_interfere, grepl("Sometimes", work_interfere), 2)) %>% 
+  mutate(work_interfere = replace(work_interfere, grepl("Often", work_interfere), 3)) %>% 
+  mutate(work_interfere = as.numeric(work_interfere)) %>% 
+  select(c(work_interfere))
+
+numericalTarget <- numericalTarget %>%
+  drop_na()
+
+print(paste("Average:", mean(numericalTarget$work_interfere)))
+print(paste("Standard Deviation:", sd(numericalTarget$work_interfere)))
+print(paste("Median:", median(numericalTarget$work_interfere)))
+
+```
+
+We like 'work_interfere' as an outcome variable because it can be used not only to determine how severely a worker's mental illness is affecting their work, but it also gives information on which workers *have* a mental illness, something that is not surveyed elsewhere. This, in turn, allows us to determine the prevalence of mental illness among our tech worker sample, which can be compared against a sample of the general population to see if there is any difference in the frequency of mental illness.
+
+This is an ordinal variable, meaning that in order to take averages or standard deviations, I needed to create numerical values. What I have found is that, looking just at the population that has / had a mental illness, the average impact on work performance was around 1.54, in between "Rarely" and "Sometimes", with a standard deviation of around 1, and a median of 2. This leads me to believe that, while our results had a lot of variation, the average tech worker with mental illess does suffer moderately (in terms of work performance) due to it. This could be a result of not receiving help and subsequently not developing strategies to mitigate their mental illness. 
+
+<p>&nbsp;</p>
 
 ```{r}
-OSMI2014 <- read.csv("../Data/survey.csv")
-target <- OSMI2014 %>% 
-  select(c(work_interfere))
+interference <- ggplot(target, aes(x = factor(work_interfere, level = c('No Mental Illness', 'Never', 'Rarely', 'Sometimes', 'Often')))) +
+  geom_bar(stat = "count", size = 4) + 
+  labs(
+    title = "Frequency of Work Interference",
+    x = "How often does mental illness affect work?",
+    y = "Count"
+  )
+ggplotly(interference)
 ```
+
+Looking at our frequency plot of work interference, we can see that, similar to what we discovered above, the "Sometimes" category is the most populated, with 465 individuals. What is most interesting to me, based on this plot, is that of workers in this survey, there are far more with some type of mental illness than without, with more than half the number of workers that said they do not have a mental illness, saying that their work is often affected by mental illness. This is etiher a reflection on poor sampling, or on the prevalence of mental illness in the tech community. 
+
+
