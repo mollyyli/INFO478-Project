@@ -11,8 +11,6 @@ library(tidyverse)
 library(plotly)
 ```
 
-Across your datasets, I imagine you have a few variables that are your "outcome" of interest, so to speak. You should do enough statistical testing (e.g., means, standard deviations, ranges, etc.) to learn about your variables and discuss them in a nuanced way (again, making sure to frame your insights using the appropriate population health vocabulary). Then, you should create at least two graphics showing the distribution of the variable.  Following your graphics, you should write out pertinent information that you discover. 
-
 ## Outcome Variable Distributions:
 
 ### Work Interfere:
@@ -60,4 +58,31 @@ ggplotly(interference)
 
 Looking at our frequency plot of work interference, we can see that, similar to what we discovered above, the "Sometimes" category is the most populated, with 465 individuals. What is most interesting to me, based on this plot, is that of workers in this survey, there are far more with some type of mental illness than without, with more than half the number of workers that said they do not have a mental illness, saying that their work is often affected by mental illness. This is etiher a reflection on poor sampling, or on the prevalence of mental illness in the tech community. 
 
+## Relationships Between Variables:
 
+In this section, you should explore the relationship between your dependent and a series of independent variables.  In doing do, you'll create at least two graphics showing the relationship between an independent and dependent variable. However, the graphics must of different types. For example, you cannot just create two scatter plots. Instead, you should think of these as ways to compare variables of different types (e.g., continuous and continuous, v.s. continuous and categorical).  You can also encode more than two variables in your charts (e.g., adding a third encoding, like color).
+
+Following your graphics, you should write out pertinent information that you discover, again using the proper framing and vocabulary. 
+
+### Tech career vs Mental Illness:
+
+```{r}
+OSMI2019 <- read.csv("../Data/OSMI 2019 Mental Health in Tech Survey Results - OSMI Mental Health in Tech Survey 2019.csv", stringsAsFactors = FALSE)
+setUp <- OSMI2019 %>% 
+  drop_na(Overall..how.much.importance.does.your.employer.place.on.mental.health.)
+  
+interference <- ggplot(setUp, aes(x = factor(If.you.have.a.mental.health.disorder..how.often.do.you.feel.that.it.interferes.with.your.work..when.._.NOT._..being.treated.effectively..i.e...when.you.are.experiencing.symptoms..., level=c("Not applicable to me", "Never", "Rarely", "Sometimes", "Often")), y = Overall..how.much.importance.does.your.employer.place.on.mental.health., color = If.you.have.a.mental.health.disorder..how.often.do.you.feel.that.it.interferes.with.your.work..when.._.NOT._..being.treated.effectively..i.e...when.you.are.experiencing.symptoms...)) +
+  geom_count() +
+  labs(
+    title = "Employer support vs Frequency of Work Interference",
+    x = "How often does mental illness affect work?",
+    y = "Employer importance of mental health",
+    color = "\n"
+  )
+interference <- interference + scale_y_continuous(breaks = seq(0, 10, by = 1))
+ggplotly(interference)
+```
+
+I decided to plot the importance that employers place on mental health vs frequency of mental health interference as one of the relationship graphs. In doing so, I expected to find that companies with a higher level of support for employees with mental health illnesses would see a lower number of employees with debilitating issues, as employees with severe mental health conditions would be receiving support.
+
+Based on my graph, however, this is not quite the case. While, across all levels, the companies that give high levels of mental health support seem to have a lower employee presence, employees are still there, nonetheless. Furthermore, and contrary to my expectation, employees that suffer from mental health conditions in supportive companies seem to be either not affected or often affected - there is no in-between. Aside from that realization, it seems that the majority of employees with mental health conditions fall toward the middle of the company support spectrum, which makes sense - the average company likely only gives an average amount of support towards mental health - and, interestingly enough, the total number of employees with a mental health condition appear to be fairly similar when comparing companies with a high and low level of mental health support. This leads me to question the effect that offering mental health support has on an employee's mental state and necessitates additional research to draw a concrete conclusion. In particular, I would like to find additional samples, and search for confounding factors.
